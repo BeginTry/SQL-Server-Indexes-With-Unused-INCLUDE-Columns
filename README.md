@@ -9,7 +9,7 @@ Creates and populates a "permanent" table within [tempdb]. This could easily be 
 Scans the plan cache for every query plan, finding every ColumnReference of every IndexScan operation. Corresponding rows in the "permanent" table have their [PlanCacheUseCount] value incremented.
 
 <h3>03 Update Table from Query Store.sql</h3>
-Iterates through all databases, scans Query Store for every query plan, finding every ColumnReference of every IndexScan operation. Corresponding rows in the "permanent" table have their [PlanCacheUseCount] value incremented.
+Iterates through all databases, scans Query Store for every query plan, finding every ColumnReference of every IndexScan operation. Corresponding rows in the "permanent" table have their [QueryStoreUseCount] value incremented.
 
 <h3>04 Results.sql</h3>
 A simple query showing all of the INCLUDE columns in the "permanent" table that have zero plan cache references and zero Query Store references.
