@@ -9,6 +9,17 @@ DECLARE @TSql VARCHAR(2000) = 'USE [?];
 
 IF DB_ID() <= 4
 	RETURN;
+ELSE IF EXISTS 
+(
+	SELECT *
+	FROM master.sys.databases d 
+	WHERE d.name = DB_NAME()
+	AND d.is_query_store_on = 0
+)
+	RETURN;
+
+--Optional
+ALTER DATABASE [?] SET QUERY_STORE = OFF;
 
 DECLARE @Msg NVARCHAR(MAX) = ''Processing Query Store for '' + QUOTENAME(DB_NAME());
 RAISERROR(@Msg, 14, 1) WITH NOWAIT;
@@ -52,6 +63,8 @@ END
 
 CLOSE curPlans;
 DEALLOCATE curPlans;
+
+ALTER DATABASE [?] SET QUERY_STORE = ON (OPERATION_MODE = READ_WRITE);
 ';
 
 EXEC sp_MSforeachdb @TSql;
