@@ -1,7 +1,6 @@
 --Iterate through every query plan in the plan cache
 --and update the "perm" table accordingly.
 --NOTES: 
-	--TRIM() function is used (requires SQL 2017 or greater).
 	--Databases that do not have Query Store enabled will not cause the script to fail.
 	--System databases are excluded.
 	--THIS WILL MOST LIKELY BE HORRIFICALLY SLOW.
@@ -25,10 +24,10 @@ BEGIN
 	CROSS APPLY idx.nodes('.//ColumnReference') AS x(c)
 	CROSS APPLY (
 		SELECT
-			TRIM('[]' FROM idx.value('(Object/@Database)[1]', 'VARCHAR(128)')) AS DatabaseName,
-			TRIM('[]' FROM idx.value('(Object/@Schema)[1]', 'VARCHAR(128)')) AS SchemaName,
-			TRIM('[]' FROM idx.value('(Object/@Table)[1]', 'VARCHAR(128)')) AS TableName,
-			TRIM('[]' FROM idx.value('(Object/@Index)[1]', 'VARCHAR(128)')) AS IndexName,
+			PARSENAME(idx.value('(Object/@Database)[1]', 'VARCHAR(128)'), 1) AS DatabaseName,
+			PARSENAME(idx.value('(Object/@Schema)[1]', 'VARCHAR(128)'), 1) AS SchemaName,
+			PARSENAME(idx.value('(Object/@Table)[1]', 'VARCHAR(128)'), 1) AS TableName,
+			PARSENAME(idx.value('(Object/@Index)[1]', 'VARCHAR(128)'), 1) AS IndexName,
 			c.value('(@Column)[1]', 'VARCHAR(128)') AS ColumnName
 	) AS nm
 	JOIN tempdb.guest.IndexIncludeColumnStats iics
