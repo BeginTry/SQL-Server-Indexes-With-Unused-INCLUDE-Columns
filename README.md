@@ -15,4 +15,4 @@ Iterates through all databases, scans Query Store for every query plan, finding 
 A simple query showing all of the INCLUDE columns in the "permanent" table that have zero plan cache references and zero Query Store references.
 
 <h3>Credits</h3>
-Many thanks to Janathan Kehayias (<a href="https://twitter.com/SQLPoolBoy">Twitter</a> | <a href="https://www.sqlskills.com/blogs/jonathan/">Blog</a>) for his guidance with the scripts. He helped me with the XML parsing/syntax that identified index scans and their column references.
+Many thanks to Jonathan Kehayias (<a href="https://twitter.com/SQLPoolBoy">Twitter</a> | <a href="https://www.sqlskills.com/blogs/jonathan/">Blog</a>) for his guidance with the scripts. He helped me with the XML parsing/syntax that identified index scans and their column references.
