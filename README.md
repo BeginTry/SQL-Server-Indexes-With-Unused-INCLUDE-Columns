@@ -2,17 +2,23 @@
 
 This repository of T-SQL scripts attempts to identify INCLUDE columns in non-clustered indexes that are not being referenced, and could presumably be removed from the index definition. The scripts are as follows:
 
-<h3>01 Create, Populate Table.sql</h3>
-Creates and populates a "permanent" table within [tempdb]. This could easily be renamed, if desired (just ensure it is renamed in all scripts). The script iterates through all databases, inserting a row for every INCLUDE column of every index.
+<h4>01 Create, Populate Table.sql</h4>
+Creates a "permanent" table within [tempdb] and populates it with meta data for all nonclustered index INCLUDE columns.
 
-<h3>02 Update Table from Plan Cache.sql</h3>
-Scans the plan cache for every query plan, finding every ColumnReference of every IndexScan operation. Corresponding rows in the "permanent" table have their [PlanCacheUseCount] value incremented.
+<h4>02 Create Table.sql</h4>
+Creates a "permanent" table to hold all query plans.
 
-<h3>03 Update Table from Query Store.sql</h3>
-Iterates through all databases, scans Query Store for every query plan, finding every ColumnReference of every IndexScan operation. Corresponding rows in the "permanent" table have their [QueryStoreUseCount] value incremented.
+<h4>03 Load Query Plans from Plan Cache.sql</h4>
+Loads query plans from plan cache into a table.
 
-<h3>04 Results.sql</h3>
-A simple query showing all of the INCLUDE columns in the "permanent" table that have zero plan cache references and zero Query Store references.
+<h4>04 Load Query Plans from Query Store.sql</h4>
+Loads query plans from Query Store in every database (if enabled/on) into a table.
+
+<h4>05 Parse Query Plans.sql</h4>
+Parses the table of query plans, and updates a table when INCLUDE columns are found.
+
+<h4>06 Results.sql</h4>
+Queries that help analyze the results.
 
 <h3>Credits</h3>
 Many thanks to Jonathan Kehayias (<a href="https://twitter.com/SQLPoolBoy">Twitter</a> | <a href="https://www.sqlskills.com/blogs/jonathan/">Blog</a>) for his guidance with the scripts. He helped me with the XML parsing/syntax that identified index scans and their column references.
