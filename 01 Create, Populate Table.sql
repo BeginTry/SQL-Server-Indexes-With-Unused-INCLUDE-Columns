@@ -1,6 +1,8 @@
---Create "permanent" table in tempdb.
-DROP TABLE IF EXISTS tempdb.guest.IndexIncludeColumnStats;
-CREATE TABLE tempdb.guest.IndexIncludeColumnStats (
+/*
+	Create a "permanent" table to hold meta data for all INCLUDE columns.
+*/
+DROP TABLE IF EXISTS tempdb.dbo.IndexIncludeColumnStats;
+CREATE TABLE tempdb.dbo.IndexIncludeColumnStats (
 	DatabaseId INT,
 	SchemaName SYSNAME,
 	TableName SYSNAME,
@@ -13,19 +15,19 @@ CREATE TABLE tempdb.guest.IndexIncludeColumnStats (
 );
 
 CREATE CLUSTERED INDEX Idx_clus_IndexIncludeColumnStats
-ON tempdb.guest.IndexIncludeColumnStats(DatabaseId, SchemaName, TableName, IndexName)
+ON tempdb.dbo.IndexIncludeColumnStats(DatabaseId, SchemaName, TableName, IndexName)
 WITH(DATA_COMPRESSION = ROW);
 
 --Iterate through databases and write inidex meta data for INCLUDE columns to a single table.
 --This is reasonably fast.
-TRUNCATE TABLE tempdb.guest.IndexIncludeColumnStats;
+TRUNCATE TABLE tempdb.dbo.IndexIncludeColumnStats;
 
 DECLARE @TSql VARCHAR(2000) = 'USE [?]; 
 
 IF DB_NAME() IN (''master'', ''model'', ''msdb'', ''tempdb'')
 	RETURN;
 
-INSERT INTO tempdb.guest.IndexIncludeColumnStats(DatabaseId, SchemaName, TableName, IndexName, IncludeColumnName)
+INSERT INTO tempdb.dbo.IndexIncludeColumnStats(DatabaseId, SchemaName, TableName, IndexName, IncludeColumnName)
 SELECT
 	DB_ID() AS DatabaseId,
 	s.name AS SchemaName,
