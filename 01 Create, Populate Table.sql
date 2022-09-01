@@ -45,6 +45,7 @@ INNER JOIN sys.schemas AS s
 	ON o.schema_id = s.schema_id
 WHERE o.is_ms_shipped = 0
 AND ic.is_included_column = 1
+AND i.type_desc <> ''CLUSTERED COLUMNSTORE''
 ORDER BY s.name, o.name, i.name, c.name';
 
 EXEC sp_MSforeachdb @TSql;
