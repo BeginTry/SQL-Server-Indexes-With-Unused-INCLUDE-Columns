@@ -1,6 +1,6 @@
 # SQL Server Indexes With Unused INCLUDE Columns
 
-This repository of T-SQL scripts attempts to identify INCLUDE columns in non-clustered indexes that are not being referenced, and could presumably be removed from the index definition. (There's a short article about this repo <a target="blank" href="https://www.davemason.me/2022/09/03/sql-server-indexes-with-unused-include-columns">on my blog/site</a>.) The scripts are as follows:
+This repository of T-SQL scripts attempts to identify INCLUDE columns in non-clustered indexes that are not being referenced, and could presumably be removed from the index definition. (There's a short article about this repo <a target="_blank" href="https://www.davemason.me/2022/09/03/sql-server-indexes-with-unused-include-columns">on my blog/site</a>.) The scripts are as follows:
 
 <h4>01 Create, Populate Table.sql</h4>
 Creates a "permanent" table within [tempdb] and populates it with meta data for all nonclustered index INCLUDE columns.
